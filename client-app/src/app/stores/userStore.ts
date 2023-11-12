@@ -9,8 +9,8 @@ import AppointmentStore from "./appointmentStore";
 
 export default class UserStore {
     user: User | null = null;
-    private favorites: Doctor[] = [];
-    private appointments: Appointment[] | undefined = [];
+    favorites: Doctor[] = [];
+    appointments: Appointment[] | undefined = [];
 
     constructor() {
         makeAutoObservable(this);

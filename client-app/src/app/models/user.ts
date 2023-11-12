@@ -1,3 +1,4 @@
+import { Appointment } from "./appointment";
 import { Doctor } from "./doctor";
 
 export interface User {

@@ -17,6 +17,7 @@ function DoctorDetailedComments({ doctorId }: Props) {
     useEffect(() => {
         if (doctorId && userStore.isLoggedIn) {
             commentStore.createHubConnection(doctorId);
+
         }
 
         return () => commentStore.clearComments();

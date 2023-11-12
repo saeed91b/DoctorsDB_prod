@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { ChatComment } from "../models/comment";
 
-import {HubConnection, HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
+import {HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
 import { store } from "./store";
 
 export default class CommentStore {
@@ -15,7 +15,9 @@ export default class CommentStore {
     createHubConnection = (doctorId: string) => {
         if (store.doctorStore.getSelectedDoctor && store.userStore.isLoggedIn){
             this.hubConnection = new HubConnectionBuilder().withUrl(process.env.REACT_APP_CHAT_URL + "?doctorId=" + doctorId, {
-                accessTokenFactory: () => store.userStore.user!.token!
+                accessTokenFactory: () => store.userStore.user!.token!,
+                skipNegotiation:true,
+                transport: HttpTransportType.WebSockets
             })
             .withAutomaticReconnect().configureLogging(LogLevel.Information).build();
 
@@ -23,7 +25,8 @@ export default class CommentStore {
 
             this.hubConnection.on("LoadComments", (comments: ChatComment[]) => {
                 runInAction(() => {
-                    comments.forEach(comment => comment.createdAt = new Date(comment.createdAt + 'Z'));
+                    comments.forEach(comment => { comment.createdAt = new Date(comment.createdAt)
+                    });
                     this.comments = comments})
             });
 

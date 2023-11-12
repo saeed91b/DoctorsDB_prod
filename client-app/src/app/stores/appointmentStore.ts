@@ -43,6 +43,7 @@ export default class AppointmentStore {
     createAppointment = async (doctorId: string, date: Date) => {
         try {
             if (store.userStore.isLoggedIn) {
+                console.log(date.toISOString());
                 await agent.Appointments.create(doctorId, date.toISOString());
 
                 var newAppointment: Appointment = {
@@ -56,6 +57,7 @@ export default class AppointmentStore {
                 store.doctorStore.setDoctorAppointment(doctorId, newAppointment);
                 runInAction(() => {
                     this.appointments.push(newAppointment);
+                    store.userStore.appointments!.push(newAppointment);
                 });
             }
         } catch (error) {
@@ -71,6 +73,7 @@ export default class AppointmentStore {
 
                 runInAction(() => {
                     this.appointments = this.appointments.filter(x => !((x.doctorId === doctorId) && (x.username === store.userStore.user!.username)));
+                    store.userStore.appointments!.filter(x => !((x.doctorId === doctorId)));
                 })
             }
         } catch (error) {

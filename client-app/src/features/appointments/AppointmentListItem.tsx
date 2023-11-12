@@ -12,14 +12,16 @@ interface Props {
 }
 
 function AppointmentListItem({ appointment }: Props) {
-    const {appointmentStore: {cancelAppointment}} = useStore();
+    const { appointmentStore: { cancelAppointment } } = useStore();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isCancelled, setIsCancelled] = useState(false);
 
     const handleCancel = () => {
         setIsSubmitting(true);
         cancelAppointment(appointment.doctorId).then(() => {
             toast.success("Appointment canceled successfully!")
             setIsSubmitting(false);
+            setIsCancelled(true);
         })
     }
 
@@ -35,7 +37,8 @@ function AppointmentListItem({ appointment }: Props) {
                                 <div> <Icon name='clock' color='olive' /> {format(new Date(appointment.date), "MMM d, yyyy h:mm aa")}</div>
                             </Item.Description>
                             <Item.Extra>
-                                <Button floated='right' onClick={handleCancel} loading={isSubmitting}  content='Cancel' color='red' />
+                                <Button floated='right' disabled={isCancelled} onClick={handleCancel} loading={isSubmitting}
+                                    content={!isCancelled ? 'Cancel' : 'Cancelled'} color='red' />
                             </Item.Extra>
                         </Item.Content>
                     </Item>

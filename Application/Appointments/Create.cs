@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Core;
@@ -45,7 +46,7 @@ namespace Application.Appointments
                 {
                     AppUser = user,
                     Doctor = doctor,
-                    Date = DateTime.Parse(request.DateString, System.Globalization.CultureInfo.InvariantCulture)
+                    Date = DateTime.Parse(request.DateString, styles: DateTimeStyles.AdjustToUniversal)
                 };
 
                 doctor.Appointments.Add(appointment);
