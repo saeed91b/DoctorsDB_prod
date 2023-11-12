@@ -1,9 +1,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 WORKDIR /app
+EXPOSE 8080
 
 COPY "DoctorsDB.sln" "DoctorsDB.sln"
 COPY "API/API.csproj" "API/API.csproj"
-COPY "Application/Aplication.csproj" "Application/Aplication.csproj"
+COPY "Application/Application.csproj" "Application/Application.csproj"
 COPY "Domain/Domain.csproj" "Domain/Domain.csproj"
 COPY "Persistence/Persistence.csproj" "Persistence/Persistence.csproj"
 COPY "Infrastructure/Infrastructure.csproj" "Infrastructure/Infrastructure.csproj"
